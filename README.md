@@ -26,46 +26,18 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.5</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.4.2.2</version>
                 <executions>
                     <execution>
-                        <id>agent-Smith</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report-agent-Smith</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>check-agent-Smith</id>
+                        <id>check-agent-Smith-ver2</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <rules>
-                        <rule>
-                            <element>BUNDLE</element>
-                            <limits>
-                                <limit>
-                                    <counter>INSTRUCTION</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>1.0</minimum>
-                                </limit>
-                            </limits>
-                        </rule>
-                    </rules>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -112,30 +84,4 @@ class StatisticsServiceTest {
     assertEquals(expected, actual);
   }
 }
-```
-# Настройки CI в файле maven.yml
-```yml
-name: Java CI with Maven # как называется Workflow
-
-on: [push, pull_request] # когда срабатывает (на push и pull_request)
-
-jobs: # какие задачи делаем
-  build: # сборка
-
-    runs-on: ubuntu-latest # на какой ОС запускаем
-
-    steps: # какие шаги выполняем
-      - uses: actions/checkout@v2 # выкачиваем репо
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2 # устанавливаем JDK
-        with:
-          java-version: 11 # версия для установки
-          distribution: 'adopt'
-          cache: maven
-      - name: Build with Maven
-        run: mvn -B -e verify # запускаем Maven до стадии verify
-```
-# Добавлен файл lombok.config
-```
-lombok.addLombokGeneratedAnnotation = true
 ```
